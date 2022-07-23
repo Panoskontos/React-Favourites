@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-
+import './app.css'
 
 function App() {
 
@@ -29,6 +29,18 @@ function App() {
   } 
 ]);
 
+
+const addNew =()=>{
+    const newarr = {id:color.length+1,status:true}
+    setColor(old=>[...old, newarr])
+}
+
+const removeFromArray =()=>{
+  const index2 = color.length
+  setColor(color.filter((i)=>{
+    return i.id !== index2;
+  }))
+}
 
 
 
@@ -65,6 +77,23 @@ function App() {
     >
       Invert
     </button> */}
+    
+    {/* Add */}
+    <button
+    onClick={()=>{addNew()}}
+    >
+      Add new
+    </button>
+
+    {/* delete */}
+    <button
+    onClick={()=>{removeFromArray()}}
+    >
+      Delete
+    </button>
+
+
+    {/* Update */}
     <button
       
       onClick={()=>{console.log(color)}}
@@ -80,7 +109,7 @@ function App() {
 
       color.map((c)=>{
         return(
-          <div  style={{fontSize:40}}>
+          <div className="heart" style={{fontSize:40}}>
            {c.status?<i onClick={()=>{updateColor(c.id)}} class="bi bi-balloon-heart"></i>:<i onClick={()=>{updateColor(c.id)}} class="bi bi-balloon-heart-fill"></i>}
         </div>
         )
