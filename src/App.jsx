@@ -9,6 +9,41 @@ function App() {
     setSeed(Math.random());
 }
 
+const [people, setPeople] = useState(
+  [{
+  "id": 1,
+  "task": "Give dog a bath",
+  "complete": true
+}, {
+  "id": 2,
+  "task": "Do laundry",
+  "complete": true
+}, {
+  "id": 3,
+  "task": "Vacuum floor",
+  "complete": false
+}, {
+  "id": 4,
+  "task": "Feed cat",
+  "complete": true
+}, {
+  "id": 5,
+  "task": "Change light bulbs",
+  "complete": false
+}, {
+  "id": 6,
+  "task": "Go to Store",
+  "complete": true
+}, {
+  "id": 7,
+  "task": "Fill gas tank",
+  "complete": true
+},
+]
+)
+// to create add
+const [ userInput, setUserInput ] = useState('');
+
   const [color, setColor] = useState([{
     id:1,
     status:true
@@ -68,6 +103,14 @@ const removeFromArray =()=>{
     // });
   }
 
+  const handleDelete=(id)=>{
+    console.log(id)
+    setPeople(people.filter((i)=>{
+      return i.id !== id;
+    }))
+  }
+
+
   return (<>
     <div key={seed} className="App">
       <h1>My favorite color is {color[0].id}!</h1>
@@ -104,9 +147,15 @@ const removeFromArray =()=>{
       <br />
       <br />
 
-    {
-    
+      <form action="">
+       
+        <button type="submit">Submit</button>
+      </form>
 
+      <br />
+      <br />
+
+    {
       color.map((c)=>{
         return(
           <div className="heart" style={{fontSize:40}}>
@@ -114,9 +163,19 @@ const removeFromArray =()=>{
         </div>
         )
       })
-  
-
     }
+
+    {people.map((p)=>{
+      return(
+        <div>
+          <span>{p.id} - {p.task}</span>
+          <button onClick={ () => { handleDelete(p.id) } }>Del</button>
+        </div>
+      )
+    })}
+
+
+   
         </>
   );
 }
