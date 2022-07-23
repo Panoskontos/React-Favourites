@@ -10,39 +10,26 @@ function App() {
 }
 
 const [people, setPeople] = useState(
-  [{
+  [
+    {
   "id": 1,
-  "task": "Give dog a bath",
-  "complete": true
-}, {
+  "name": "Panos",
+  "color": "blue"
+},
+{
   "id": 2,
-  "task": "Do laundry",
-  "complete": true
-}, {
+  "name": "Nikos",
+  "color": "red"
+},{
   "id": 3,
-  "task": "Vacuum floor",
-  "complete": false
-}, {
-  "id": 4,
-  "task": "Feed cat",
-  "complete": true
-}, {
-  "id": 5,
-  "task": "Change light bulbs",
-  "complete": false
-}, {
-  "id": 6,
-  "task": "Go to Store",
-  "complete": true
-}, {
-  "id": 7,
-  "task": "Fill gas tank",
-  "complete": true
+  "name": "Marinos",
+  "color": "green"
 },
 ]
 )
 // to create add
 const [ userInput, setUserInput ] = useState('');
+const [ colorInput, setColorInput ] = useState('');
 
   const [color, setColor] = useState([{
     id:1,
@@ -111,6 +98,36 @@ const removeFromArray =()=>{
   }
 
 
+  // add new person
+  const handleChange = (e) => {
+    setUserInput(e.target.value)
+}
+const handleColorChange = (e) => {
+  setColorInput(e.target.value)
+  console.log(colorInput)
+}
+
+
+const handleSubmit = (e) => {
+  console.log("submit")
+  e.preventDefault();
+  // addTask(userInput);
+  addUserNColor(userInput,colorInput)
+  setUserInput("");
+  setColorInput("")
+}
+// const addTask = (userInput) => {
+//   let copy = [...people];
+//   copy = [...copy, { id: people.length + 1, name: userInput, color:"crimson" }];
+//   setPeople(copy);
+// }
+const addUserNColor= (userInput, colorInput)=>{
+  let copy = [...people];
+  copy = [...copy, { id: people.length + 1, name: userInput, color:colorInput }];
+  setPeople(copy);
+}
+
+
   return (<>
     <div key={seed} className="App">
       <h1>My favorite color is {color[0].id}!</h1>
@@ -147,10 +164,13 @@ const removeFromArray =()=>{
       <br />
       <br />
 
-      <form action="">
-       
-        <button type="submit">Submit</button>
+      <form action="" onSubmit={handleSubmit}>
+      <input value={userInput} type="text" onChange={handleChange} placeholder="Enter person..."/>
+      <input value={colorInput} type="text" onChange={handleColorChange} placeholder="Enter color..."/>
+      <button type="submit">Submit</button>
       </form>
+       
+      
 
       <br />
       <br />
@@ -168,8 +188,10 @@ const removeFromArray =()=>{
     {people.map((p)=>{
       return(
         <div>
-          <span>{p.id} - {p.task}</span>
-          <button onClick={ () => { handleDelete(p.id) } }>Del</button>
+          <span style={{color:p.color}}>{p.id} - {p.name}</span>&#160;&#160;
+          <i style={{fontSize:20}} onClick={ () => { handleDelete(p.id) } } class="bi bi-trash"></i>
+          <br />
+          <br />
         </div>
       )
     })}
