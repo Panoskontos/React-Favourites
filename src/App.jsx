@@ -9,6 +9,8 @@ function App() {
     setSeed(Math.random());
 }
 
+const [editId, setEditId ] = useState(null);
+
 const [people, setPeople] = useState(
   [
     {
@@ -98,6 +100,17 @@ const removeFromArray =()=>{
   }
 
 
+  // handleUpdate
+  const handleUpdate=(id,name,color)=>{
+    console.log(id)
+    setUserInput(name)
+    setColorInput(color)
+    setEditId(id)
+  }
+
+
+
+
   // add new person
   const handleChange = (e) => {
     setUserInput(e.target.value)
@@ -111,20 +124,32 @@ const handleColorChange = (e) => {
 const handleSubmit = (e) => {
   console.log("submit")
   e.preventDefault();
-  // addTask(userInput);
+  if(editId){
+    console.log("push changes to id: ", editId)
+    editUserNColor(userInput, colorInput)
+  }
   addUserNColor(userInput,colorInput)
   setUserInput("");
   setColorInput("")
 }
+// for 1
 // const addTask = (userInput) => {
 //   let copy = [...people];
 //   copy = [...copy, { id: people.length + 1, name: userInput, color:"crimson" }];
 //   setPeople(copy);
 // }
+
+// for multiple
 const addUserNColor= (userInput, colorInput)=>{
   let copy = [...people];
   copy = [...copy, { id: people.length + 1, name: userInput, color:colorInput }];
   setPeople(copy);
+}
+
+// edit for multiple
+const editUserNColor=(userInput,colorInput)=>{
+  let copy = [...people];
+  
 }
 
 
@@ -156,7 +181,7 @@ const addUserNColor= (userInput, colorInput)=>{
     {/* Update */}
     <button
       
-      onClick={()=>{console.log(color)}}
+      onClick={()=>{console.log(color);console.log(people)}}
     >
       Print Array
     </button>
@@ -164,11 +189,27 @@ const addUserNColor= (userInput, colorInput)=>{
       <br />
       <br />
 
+      {editId
+      ?
+      <>
+
+        "edit"
+        <form action="" onSubmit={handleSubmit}>
+          <input value={userInput} type="text" onChange={handleChange} placeholder="Enter person..."/>
+          <input value={colorInput} type="text" onChange={handleColorChange} placeholder="Enter color..."/>
+          <button type="submit">Submit</button>
+      </form>
+      </>
+      :
+      <>
+      "new"
       <form action="" onSubmit={handleSubmit}>
       <input value={userInput} type="text" onChange={handleChange} placeholder="Enter person..."/>
       <input value={colorInput} type="text" onChange={handleColorChange} placeholder="Enter color..."/>
       <button type="submit">Submit</button>
       </form>
+      </>
+      }
        
       
 
@@ -188,8 +229,10 @@ const addUserNColor= (userInput, colorInput)=>{
     {people.map((p)=>{
       return(
         <div>
-          <span style={{color:p.color}}>{p.id} - {p.name}</span>&#160;&#160;
+          <span style={{color:p.color}}>{p.id} - {p.name}</span>&#160;&#160;&#160;&#160;
           <i style={{fontSize:20}} onClick={ () => { handleDelete(p.id) } } class="bi bi-trash"></i>
+          &#160;&#160;&#160;&#160;
+          <i class="bi bi-pencil-square" onClick={ () => { handleUpdate(p.id,p.name,p.color) } }></i>
           <br />
           <br />
         </div>
