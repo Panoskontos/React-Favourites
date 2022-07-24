@@ -127,6 +127,10 @@ const handleSubmit = (e) => {
   if(editId){
     console.log("push changes to id: ", editId)
     editUserNColor(userInput, colorInput)
+    setUserInput("");
+    setColorInput("")
+    setEditId(null);
+    return
   }
   addUserNColor(userInput,colorInput)
   setUserInput("");
@@ -149,7 +153,11 @@ const addUserNColor= (userInput, colorInput)=>{
 // edit for multiple
 const editUserNColor=(userInput,colorInput)=>{
   let copy = [...people];
-  
+  const index = copy.map(object => object.id).indexOf(editId)
+  copy[index].name = userInput;
+  copy[index].color = colorInput;
+  setPeople(copy)
+
 }
 
 
@@ -193,7 +201,7 @@ const editUserNColor=(userInput,colorInput)=>{
       ?
       <>
 
-        "edit"
+        Edit
         <form action="" onSubmit={handleSubmit}>
           <input value={userInput} type="text" onChange={handleChange} placeholder="Enter person..."/>
           <input value={colorInput} type="text" onChange={handleColorChange} placeholder="Enter color..."/>
@@ -202,7 +210,7 @@ const editUserNColor=(userInput,colorInput)=>{
       </>
       :
       <>
-      "new"
+      Create New
       <form action="" onSubmit={handleSubmit}>
       <input value={userInput} type="text" onChange={handleChange} placeholder="Enter person..."/>
       <input value={colorInput} type="text" onChange={handleColorChange} placeholder="Enter color..."/>
